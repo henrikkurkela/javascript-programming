@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ButtonDemo.html by Kari Laitinen</title>
+    <!-- 
+   2014-01-10 File created.
+   2015-02-27 Last modification
+
+   This page demonstrates how to react to the pressing of a button,
+   and how to change the text in a h1 element.
+
+   The following link may be useful when you study this program:
+      http://www.w3schools.com/jsref/dom_obj_all.asp
+
+-->
+
+    <style>
+        .centered {
+            text-align: center;
+            margin: 64px auto;
+            /* top and bottom margins are set,
+                                right and left margins are automatic */
+        }
+
+        body {
+            background-color: lightyellow;
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            border-radius: 5px;
+            width: 100px;
+            height: 25px;
+        }
+
+        button:hover {
+            background-color: goldenrod;
+        }
+    </style>
+
+    <script>
+
+        // The following JavaScript function is able to modify the text inside
+        // the HTML tags <h1> and </h1>. The HTML element is identified with its
+        // id "text_on_screen".
+
+        let day_index = 0 ;
+        let days_of_week = [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ] ;
+
+        function change_day() {
+            let text_element = document.getElementById("day_on_screen");
+            text_element.innerHTML = days_of_week[day_index];
+            day_index++;
+            if (day_index > 6) day_index = 0;
+        }
+
+        let month_index = 0;
+        let names_of_months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ] ;
+
+        function change_month() {
+            let text_element = document.getElementById("month_on_screen");
+            text_element.innerHTML = names_of_months[month_index];
+            month_index++;
+            if (month_index > 11) month_index = 0;
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <h1 id="day_on_screen" class=centered>Hello!</h1>
+    <h1 id="month_on_screen" class="centered">Hello!</h1>
+
+    <div class=centered>
+        <button onclick="change_day()">Press</button>
+        <button onclick="change_month()">Press</button>
+    </div>
+
+</body>
+
+</html>
