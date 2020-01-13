@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>PictureViewing.html by Kari Laitinen</title>
+   <!-- 
+   2014-01-13 File created for http://www.naturalprogramming.com/
+   2014-01-19 Last modification
+
+   This page shows image files that are located in a subfolder
+   named "images". With the Next button it is possible to see the
+   next image.
+
+   This page demonstrates how to modify an <img> element
+   by using JavaScript.
+
+   The page http://www.w3schools.com/jsref/dom_obj_image.asp
+   tells what properties of an Image object can be modified in
+   JavaScript. Each <img> element in HTML corresponds to an Image
+   object in JavaScript.
+
+   The picture files of various famous paintings have been obtained 
+   from the Internet.
+
+   The copyrights of the pictures are owned by other institutions
+   than the author of this program.
+
+   Les Demoiselles d'Avignon (1907) by Pablo Picasso is at MOMA (Museum
+   of Modern Art), New York.
+   Mona Lisa (1503-6) by Leonardo da Vinci is at Louvre in Paris, France.
+   Persistence of Memory (1931) by Salvador Dali is at MOMA, New York.
+   The Night Watch (1642) of Rembrandt is at Rijksmuseum, Amsterdam.
+   The 'Yellow Field' painting is made by Vincent van Gogh who lived
+   1853-1890.
+
+-->
+
+   <style>
+      .centered {
+         text-align: center;
+         margin: 16px auto;
+         /* top and bottom margins are set,
+                                right and left margins are automatic */
+      }
+   </style>
+
+   <script>
+
+      var picture_file_names = ["images/yellow_field_by_vincent_van_gogh.jpg",
+         "images/night_watch_by_rembrandt.jpg",
+         "images/persistence_of_memory_by_dali.jpg",
+         "images/demoiselles_de_avignon_by_picasso.jpg",
+         "images/mona_lisa_by_leonardo.jpg",
+         "images/kuva.jpg"];
+
+      let picture_texts = ["Yellow Field",
+         "Night Watch",
+         "Persistence of Memory",
+         "Demoiselles de Avignon",
+         "Mona Lisa",
+         "Ilon ja Onnen Päivä"];
+
+      var picture_index = 0;
+
+      function show_previous_picture() {
+         picture_index--;
+         if (picture_index < 0) picture_index = picture_file_names.length - 1;
+
+         let image_element = document.getElementById("image_element_id");
+         let text_element = document.getElementById("image_text_id");
+         image_element.src = picture_file_names[picture_index];
+         text_element.innerHTML = picture_texts[picture_index];
+
+      }
+
+      function show_next_picture() {
+         picture_index++;
+
+         if (picture_index >= picture_file_names.length) {
+            picture_index = 0;
+         }
+
+         // First we get a reference to the img element in HTML code.
+
+         var image_element = document.getElementById("image_element_id");
+         let text_element = document.getElementById("image_text_id");
+         // Then we rewrite the src attribute of the img element.
+
+         image_element.src = picture_file_names[picture_index];
+         text_element.innerHTML = picture_texts[picture_index];
+      }
+
+      function enlarge(){
+         let image_element = document.getElementById("image_element_id");
+         image_element.width = image_element.width * 1.25;
+
+      }
+
+      function shrink(){
+         let image_element = document.getElementById("image_element_id");
+         image_element.width = image_element.width * 0.8;
+      }
+
+   </script>
+
+</head>
+
+<body>
+
+   <div class=centered>
+      <button onclick="show_previous_picture()">Previous</button>
+      <button onclick="show_next_picture()">Next</button>
+   </div>
+
+   <div class=centered>
+      <img id=image_element_id src="images/yellow_field_by_vincent_van_gogh.jpg" width=800 onclick="show_next_picture()">
+      <p id="image_text_id">Yellow Field</p>
+   </div>
+
+   <div class=centered>
+      <button onclick="shrink()">Shrink</button>
+      <button onclick="enlarge()">Enlarge</button>
+   </div>
+
+</body>
+
+</html>
