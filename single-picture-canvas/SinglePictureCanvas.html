@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<!-- SinglePictureCanvas.html Copyright (c) Kari Laitinen
+
+   2012-03-15 This file was created for http://www.naturalprogramming.com/
+   2014-02-06 Last modification.
+
+   This program shows how images can be drawn on a canvas.
+
+   Useful web pages are:
+     http://www.w3schools.com/tags/ref_canvas.asp
+     http://www.w3schools.com/tags/canvas_drawimage.asp
+
+-->
+
+<html>
+
+<head>
+   <meta charset="ISO-8859-1">
+
+   <title>SHOWING A PICTURE IN DIFFERENT SIZES"</title>
+
+   <script type="text/javascript">
+
+      var picture_to_show = new Image();
+      picture_to_show.src = "images/gauguin_two_women_on_the_beach_1891.jpg";
+      let scale = 1.00;
+
+      function draw_on_canvas() {
+         var canvas = document.getElementById("picture_canvas");
+         var context = canvas.getContext("2d");
+
+         context.fillStyle = "Orange"; // background color is the mortar color
+         context.fillRect(0, 0, canvas.width, canvas.height);
+
+         context.fillStyle = "FireBrick"; // brick color
+
+         var brick_position_x = 0; // first brick will be drawn to the
+         var brick_position_y = 0; // upper left corner of the canvas
+         var brick_height = 28;
+         var brick_length = 112;
+         var gap_between_bricks = 4; // this is the thickness of mortar
+         var row_counter = 0;
+
+         while (brick_position_y < canvas.height) {
+            // The following while loop draws a row of bricks.
+
+            while (brick_position_x < canvas.width) {
+               context.fillRect(brick_position_x, brick_position_y,
+                  brick_length, brick_height); // this draws a brick
+               brick_position_x = brick_position_x + brick_length
+                  + gap_between_bricks;
+            }
+
+            // Now we must prepare to do the next row of bricks.
+            // Every second row must start with a half brick.
+            row_counter++;
+
+            if (row_counter % 2 == 1) // Is this an odd row of bricks?
+            {
+               brick_position_x = - brick_length / 2;
+            }
+            else {
+               brick_position_x = 0;
+            }
+
+            brick_position_y = brick_position_y + brick_height
+               + gap_between_bricks;
+         }
+
+         var picture_width = picture_to_show.width * scale;
+         var picture_height = picture_to_show.height * scale;
+
+         var picture_position_x = (960 / 2) - (picture_width / 2);
+         var picture_position_y = (744 / 2) - (picture_height / 2);
+
+         let picture_frame_position_x = (960 / 2) - (picture_width / 2) - 10;
+         var picture_frame_position_y = (744 / 2) - (picture_height / 2) - 10;
+
+         context.fillStyle = "maroon";
+         context.fillRect(picture_frame_position_x, picture_frame_position_y, picture_width + 20, picture_height + 20);
+
+         context.drawImage(picture_to_show, picture_position_x, picture_position_y, picture_width, picture_height);
+
+      }
+
+
+      document.addEventListener('keydown', logKey);
+
+      function logKey(e) {
+         switch (e.code) {
+            case "ArrowUp":
+               scale *= 1.25;
+               draw_on_canvas();
+               break;
+            case "ArrowDown":
+               scale *= 0.8;
+               draw_on_canvas();
+               break;
+         }
+      }
+
+   </script> <!-- End of JavaScript code. -->
+
+   <style type="text/css">
+      #centered {
+         width: 960px;
+         height: 744px;
+         margin: 30px auto;
+         /* top and bottom margins are 30p;
+                               right and left margins are automatic */
+         border: 1px solid black;
+      }
+   </style> <!-- End of CSS style definitions. -->
+</head>
+
+<body onload="draw_on_canvas()">
+
+   <div id=centered>
+      <canvas id=picture_canvas width=960 height=744>
+      </canvas>
+   </div>
+</body>
+
+</html>

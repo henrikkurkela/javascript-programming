@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta charset="ISO-8859-1">
+   <title>ClickingsCanvas.html &copy; Kari Laitinen</title>
+   <!-- ClickingsCanvas.html (c) Copyright Kari Laitinen
+
+   2012-02-26 This page was created.
+   2016-03-23 Last modification.
+
+   This program shows how to:
+      - react to the event when a mouse button is pressed down
+      - define array objects and add new elements to the
+        end of arrays
+
+
+   See notes at the end of this file.
+-->
+
+   <script type="text/javascript">
+
+      // We make here two arrays for storing the coordinates of
+      // the clicked points. In the beginning the arrays are empty.
+
+      var x_coordinates_of_clickings;
+      var y_coordinates_of_clickings;
+
+      var large_font = "bold 24px serif";
+
+      function on_mouse_down(event) {
+         // The following variables will store the cursor
+         // coordinates relative to the upper left corner of the canvas.
+
+         var clicked_point_x = event.offsetX;
+         var clicked_point_y = event.offsetY;
+
+         // With the push() method we add new elements to the end
+         // of the two arrays.
+
+         x_coordinates_of_clickings = clicked_point_x;
+         y_coordinates_of_clickings = clicked_point_y;
+
+         draw_on_canvas(true);   // This call updates the screen.
+      }
+
+      function draw_on_canvas(clicked) {
+         var canvas = document.getElementById("canvas_for_clickings");
+         var context = canvas.getContext("2d");
+
+         let x_begin = 0;
+         let y_begin = 0;
+
+         // We'll fill the entire canvas with light color.
+
+         context.fillStyle = "LightYellow";
+         context.fillRect(0, 0, canvas.width, canvas.height);
+
+         context.fillStyle = "Blue";
+
+         context.font = large_font;
+         if (clicked == true) {
+            let text = "";
+            if (y_coordinates_of_clickings >= (canvas.height / 2)) {
+               text += "South-";
+               y_begin = canvas.height / 2;
+            } else {
+               text += "North-";
+            }
+            if (x_coordinates_of_clickings >= (canvas.width / 2)) {
+               text += "East";
+               x_begin = canvas.width / 2;
+            } else {
+               text += "West";
+            }
+            let offset = context.measureText(text).width;
+            context.fillStyle = "lime";
+            context.fillRect(x_begin, y_begin, canvas.width / 2, canvas.height / 2);
+            context.fillStyle = "black";
+            context.fillRect((canvas.width / 2) - (offset / 2) - 12, (canvas.height / 2) - 22, offset + 24, 28);
+            context.fillStyle = "lime";
+            context.fillRect((canvas.width / 2) - (offset / 2) - 10, (canvas.height / 2) - 20, offset + 20, 24);
+            context.fillStyle = "black";
+            context.fillText(text, (canvas.width / 2) - (offset / 2), canvas.height / 2);
+         } else {
+            let offset = context.measureText("Click!").width;
+            context.fillText(
+               "Click!", (canvas.width / 2) - (offset / 2), canvas.height / 2);
+         }
+
+      }
+   </script>
+
+   <style type="text/css">
+      #centered {
+         width: 600px;
+         height: 500px;
+         margin: 30px auto;
+         /* top and bottom margins are 30p;
+                               right and left margins are automatic */
+         border: 1px solid black;
+      }
+   </style>
+</head>
+
+<body onload="draw_on_canvas(false)">
+
+   <div id=centered>
+
+      <!-- We'll specify a canvas so that method on_mouse_down() will be
+           called when onmousedown event takes place within the canvas area -->
+
+      <canvas id=canvas_for_clickings width=600 height=500 onmousedown="on_mouse_down( event )">
+      </canvas>
+   </div>
+
+</body>
+
+</html>
