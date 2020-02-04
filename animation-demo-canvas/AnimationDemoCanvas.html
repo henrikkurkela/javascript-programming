@@ -1,0 +1,146 @@
+<!DOCTYPE html> <!-- This identifies an HTML 5 document. -->
+<html>
+
+<head>
+   <meta charset="ISO-8859-1">
+   <title>AnimationDemoCanvas.html &copy; Kari Laitinen</title>
+
+   <!--   http://www.naturalprogramming.com/
+
+   2012-02-29 File created.
+   2014-02-06 Last modification.
+
+    This example demonstrates how animation can be created.
+    'Animation' in this program means that there is a blinking
+    ball on the screen.
+
+    More information at:
+      http://www.w3schools.com/js/js_timing.asp
+
+    There are notes at the end of this file.
+
+-->
+
+   <script src="ball.js"></script>
+   <script type="text/javascript">
+
+      var ball_center_point_x = 300;
+      var ball_center_point_y = 240;
+
+      var current_ball_color = "cyan";
+
+      var ball_must_be_shown = true;
+
+      let y_direction = 1;
+      let x_direction = 0;
+
+      let direction_coefficient = 1;
+
+      let ball = new Ball(ball_center_point_x, ball_center_point_y, current_ball_color);
+
+      function draw_on_canvas() {
+         var canvas = document.getElementById("animation_demo_canvas");
+         var context = canvas.getContext("2d");
+
+         // We'll fill the entire canvas with light color, which overdraws
+         // the previous drawings.
+
+         context.fillStyle = "rgb( 255, 255, 210 )";  // light yellow
+         context.fillRect(0, 0, canvas.width, canvas.height);
+
+         if (ball_must_be_shown == true) {
+            ball.move_to_position(ball_center_point_x, ball_center_point_y);
+            ball.draw(context);
+
+            ball_must_be_shown = false;
+         }
+         else {
+            ball_must_be_shown = true;
+         }
+
+         if (ball_center_point_y <= 436 && y_direction != 0) {
+            ball_center_point_y += 25 * y_direction;
+         }
+         if (ball_center_point_y >= 436) {
+            ball_center_point_y = 436;
+            y_direction = 0;
+            x_direction = 1 * direction_coefficient;
+         } else if (ball_center_point_y <= 64) {
+            ball_center_point_y = 64;
+            y_direction = 0;
+            x_direction = -1 * direction_coefficient;
+         }
+
+         if (ball_center_point_x <= 536 && x_direction != 0) {
+            ball_center_point_x += 25 * x_direction;
+         }
+         if (ball_center_point_x >= 536) {
+            ball_center_point_x = 536;
+            y_direction = -1 * direction_coefficient;
+            x_direction = 0;
+         } else if (ball_center_point_x <= 64) {
+            ball_center_point_x = 64;
+            y_direction = 1 * direction_coefficient;
+            x_direction = 0;
+         }
+
+         //  With the following method call we specify that this
+         //  method "draw_on_canvas()" will be automatically called
+         //  again after 1000 milliseconds, i.e., after one second.
+
+         //  This has the effect that "draw_on_canvas()" is executed
+         //  repeatedly once in every second. As the ball is 
+         //  not drawn during every execution, it seems to blink
+         //  on the screen.
+
+         setTimeout("draw_on_canvas()", 200);
+      }
+
+      function key_down(event) {
+         direction_coefficient *= -1;
+      }
+
+   </script>
+
+   <style type="text/css">
+      #centered {
+         width: 600px;
+         height: 500px;
+         margin: 30px auto;
+         /* top and bottom margins are 30p;
+                               right and left margins are automatic */
+         border: 1px solid black;
+      }
+   </style>
+</head>
+
+<body onload="draw_on_canvas()" onkeydown="key_down(event)">
+
+   <div id=centered>
+      <canvas id=animation_demo_canvas width=600 height=500>
+      </canvas>
+
+   </div>
+
+</body>
+
+</html>
+
+<!--  
+
+    A NOTE RELATED TO HUMAN PHYSIOLOGY:
+
+    This program can be used to demonstrate the strange 
+    behaviour of our sight system. If you watch the blinking ball
+    from a short distance, you'll notice that when the ball disappears
+    from the screen you see a kind of shadow of the ball. The color
+    of the shadowish ball seems to be close to magenta, which is a
+    kind of opposite color to cyan, the color of the 'real' ball.
+    The reason for seeing this kind of shadow of the ball is in
+    our eyes. Our sight system is such that the sight cells inside
+    our eyes remember the object (i.e. the ball) that disappears,
+    but they produce the opposite color for the disappeared object.
+    (This nice feature in this program was discovered by professor
+    Matti Weckström from the University of Oulu.)
+
+-->
